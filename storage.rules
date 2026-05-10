@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+             request.auth.uid in getUsersWithRole('admin');
+    }
+    
+    // Services images
+    match /services/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() && userId == request.auth.uid;
+      allow delete: if isAdmin() || (isAuthenticated() && userId == request.auth.uid);
+    }
+    
+    // User avatars
+    match /avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() && userId == request.auth.uid;
+      allow delete: if isAdmin() || (isAuthenticated() && userId == request.auth.uid);
+    }
+    
+    // Public images
+    match /public/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // Uploads (temp)
+    match /uploads/{userId}/{fileName} {
+      allow read: if false;
+      allow write: if isAuthenticated() && userId == request.auth.uid;
+      allow delete: if isAdmin() || (isAuthenticated() && userId == request.auth.uid);
+    }
+    
+    // Default deny
+    match /{allPaths=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+  }
+}
+
+// Helper function to get users with specific role (needs to be implemented in backend)
+function getUsersWithRole(role) {
+  // This would be implemented via Firebase Admin SDK
+  return [];
+}

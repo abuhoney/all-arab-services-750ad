@@ -1,0 +1,61 @@
+services:
+  - type: web
+    name: all-arab-services
+    runtime: node
+    repo: https://github.com/abuhoney/all-arab-services
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_ADMIN_ID
+        value: 7082122839
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: abuhoney/all-arab-services
+      - key: GITHUB_BRANCH
+        value: main
+      - key: GITHUB_OWNER
+        value: abuhoney
+      - key: RENDER_API_KEY
+        sync: false
+      - key: RENDER_SERVICE_ID
+        sync: false
+      - key: RENDER_URL
+        value: https://all-arab-services.onrender.com
+      - key: KATABUMP_SFTP_HOST
+        value: sftp.fr-node-48.katabump.com
+      - key: KATABUMP_SFTP_PORT
+        value: 2022
+      - key: KATABUMP_SFTP_USER
+        value: 8aeec655ba0daca.108f41e9
+      - key: KATABUMP_SFTP_PASSWORD
+        sync: false
+      - key: KATABUMP_WEB_URL
+        value: http://51.75.118.169:20144
+      - key: KATABUMP_SERVER_ID
+        value: 108f41e9-d802-4040-aa30-0217cce19388
+      - key: FIREBASE_API_KEY
+        value: AIzaSyBm-ZwOv8oPd_0rms_2oesGz3fDmt5ogvA
+      - key: FIREBASE_APP_ID
+        value: 1:1002499268790:web:9437bee4f4df9f93adc617
+      - key: FIREBASE_AUTH_DOMAIN
+        value: all-arab-services-750ad.firebaseapp.com
+      - key: FIREBASE_DATABASE_URL
+        value: https://all-arab-services-750ad-default-rtdb.europe-west1.firebasedatabase.app
+      - key: FIREBASE_MEASUREMENT_ID
+        value: G-5YLWVFPW60
+      - key: FIREBASE_MESSAGING_SENDER_ID
+        value: 1002499268790
+      - key: FIREBASE_PROJECT_ID
+        value: all-arab-services-750ad
+      - key: FIREBASE_STORAGE_BUCKET
+        value: all-arab-services-750ad.firebasestorage.app
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    autoDeploy: true
